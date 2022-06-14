@@ -7,6 +7,7 @@ This app is reading and writing NDEF formatted NFC tags.
 
 For parsing: https://github.com/skjolber/ndef-tools-for-android
 
+NDEFRecord: http://www.java2s.com/example/java-src/pkg/android/nfc/ndefrecord-c8783.html
 
 
 AndroidManifest.xml add permissions:
