@@ -6,7 +6,8 @@ These NDEF types are implemented:
 ```plaintext
 01 well known type - text
 02 well known type - URI
-03 well known type - Google streetview
+03 well known type - Google streetview (Uri)
+04 well known type - Email (Uri)
 
 ```
 
@@ -20,6 +21,18 @@ AndroidManifest.xml add permissions:
 ```plaintext
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.VIBRATE" />
+```
+
+Email:
+```plaintext
+I/System.out: nr of records: 1
+I/System.out: 
+I/System.out: rec: 0 TNF: 1 (1 TNF_WELL_KNOWN)
+I/System.out: rec 0 inf: 1 type: 55 payload: 06616e64726f696463727970746f40676d782e64653f7375626a6563743d546573746d61696c25323066726f6d2532304e464325323074616726626f64793d54686973253230697325323061253230746573746d61696c25323066726f6d253230612532304e4643253230746167 
+I/System.out: androidcrypto@gmx.de?subject=Testmail%20from%20NFC%20tag&body=This%20is%20a%20testmail%20from%20a%20NFC%20tag 
+I/System.out: Well known Uri XX payload
+I/System.out: androidcrypto@gmx.de?subject=Testmail%20from%20NFC%20tag&body=This%20is%20a%20testmail%20from%20a%20NFC%20tag 
+I/System.out: mailto:androidcrypto@gmx.de?subject=Testmail%20from%20NFC%20tag&body=This%20is%20a%20testmail%20from%20a%20NFC%20tag
 ```
 
 Streetview

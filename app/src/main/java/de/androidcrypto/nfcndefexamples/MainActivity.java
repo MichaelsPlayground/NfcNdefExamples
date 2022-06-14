@@ -34,8 +34,8 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity implements NfcAdapter.ReaderCallback {
 
     Button readNfc;
-    com.google.android.material.textfield.TextInputLayout inputField1Decoration, inputField2Decoration;
-    com.google.android.material.textfield.TextInputEditText typeDescription, inputField1, inputField2, resultNfcWriting;
+    com.google.android.material.textfield.TextInputLayout inputField1Decoration, inputField2Decoration, inputField3Decoration;
+    com.google.android.material.textfield.TextInputEditText typeDescription, inputField1, inputField2, inputField3, resultNfcWriting;
     SwitchMaterial addTimestampToData;
     AutoCompleteTextView autoCompleteTextView;
 
@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
         inputField1Decoration = findViewById(R.id.etMainInputline1Decoration);
         inputField2 = findViewById(R.id.etMainInputline2);
         inputField2Decoration = findViewById(R.id.etMainInputline2Decoration);
+        inputField3 = findViewById(R.id.etMainInputline3);
+        inputField3Decoration = findViewById(R.id.etMainInputline3Decoration);
         resultNfcWriting = findViewById(R.id.etMainResult);
         addTimestampToData = findViewById(R.id.swMainAddTimestampSwitch);
 
@@ -116,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
         typeDescription.setVisibility(View.GONE);
         inputField1Decoration.setVisibility(View.GONE);
         inputField2Decoration.setVisibility(View.GONE);
+        inputField3Decoration.setVisibility(View.GONE);
         addTimestampToData.setVisibility(View.GONE);
         resultNfcWriting.setVisibility(View.GONE);
     }
@@ -126,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
         inputField1Decoration.setHint("Enter a textline");
         inputField1Decoration.setVisibility(View.VISIBLE);
         inputField2Decoration.setVisibility(View.GONE);
+        inputField3Decoration.setVisibility(View.GONE);
         addTimestampToData.setVisibility(View.VISIBLE);
         resultNfcWriting.setVisibility(View.VISIBLE);
         inputField1.setText("sample text");
@@ -137,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
         inputField1Decoration.setHint("Enter an URI including https://");
         inputField1Decoration.setVisibility(View.VISIBLE);
         inputField2Decoration.setVisibility(View.GONE);
+        inputField3Decoration.setVisibility(View.GONE);
         addTimestampToData.setVisibility(View.GONE);
         resultNfcWriting.setVisibility(View.VISIBLE);
         inputField1.setText("https://");
@@ -149,10 +154,12 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
         inputField2Decoration.setHint("Enter the email subject");
         inputField1Decoration.setVisibility(View.VISIBLE);
         inputField2Decoration.setVisibility(View.VISIBLE);
+        inputField3Decoration.setVisibility(View.VISIBLE);
         addTimestampToData.setVisibility(View.VISIBLE);
         resultNfcWriting.setVisibility(View.VISIBLE);
         inputField1.setText("androidcrypto@gmx.de");
         inputField2.setText("sample email subject");
+        inputField3.setText("Hello AndroidCrypto,\nThis is a sample mail.");
     }
 
     private void inputSchemeStreetview() {
@@ -228,12 +235,23 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                     ndefMessage = new NdefMessage(ndefRecord1);
                     break;
                 }
+                case "Email": {
+                    String data1 = inputData1;
+                    String data2 = inputField2.getText().toString();
+                    String data3 = inputField3.getText().toString();
+                    String completeData = "mailto:" + Uri.encode(data1) + "?subject=" +
+                            Uri.encode(data2);
+                    if (addTimestamp) completeData = completeData + Uri.encode(" " + Utils.getTimestamp());
+                    completeData = completeData + "&body=" + Uri.encode(data3);
+                    System.out.println("*** Email: " + completeData);
+                    ndefRecord1 = NdefRecord.createUri(completeData);
+                    ndefMessage = new NdefMessage(ndefRecord1);
+                    break;
+                }
                 case "StreetView": {
                     String data = inputData1;
                     String completeData = "google.streetview:cbll=" + data;
-                    System.out.println("*** StreetView: " + completeData);
                     ndefRecord1 = NdefRecord.createUri(completeData);
-                    System.out.println("ndefRecord1: " + ndefRecord1.getTnf() + " " + ndefRecord1.getType());
                     ndefMessage = new NdefMessage(ndefRecord1);
                     break;
                 }
