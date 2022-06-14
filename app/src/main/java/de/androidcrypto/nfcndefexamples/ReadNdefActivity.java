@@ -15,6 +15,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+
+import de.androidcrypto.nfcndefexamples.ndef.wellknown.TextRecord;
+
 public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.ReaderCallback {
 
     TextView nfcContentHex, nfcContentString;
@@ -156,6 +161,19 @@ public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.Re
                         nfcContentString.setText(finalNdefContent);
                         System.out.println(finalNdefContent);
                     });
+
+                    if (ndefTnf == NdefRecord.TNF_WELL_KNOWN &&
+                            Arrays.equals(ndefType, "T".getBytes(StandardCharsets.US_ASCII))) {
+                        String ndefText = "XX payload\n" + new String(ndefPayload) + " \n";
+                        TextRecord textRecord = new TextRecord(new String(ndefPayload));
+                        String dataTextRecord = textRecord.getText();
+                        ndefText = ndefText + dataTextRecord;
+                        String finalNdefText = ndefText;
+                        runOnUiThread(() -> {
+                            nfcContentHex.setText(finalNdefText);
+                            System.out.println(finalNdefText);
+                        });
+                    }
 
                 }
             }
