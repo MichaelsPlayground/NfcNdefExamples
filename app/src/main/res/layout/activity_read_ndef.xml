@@ -52,33 +52,5 @@
             android:hint="the NDEF formatted record comes here"
             android:textSize="16sp" />
 
-        <Button
-            android:id="@+id/btnWriteNdefMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:text="write simple NDEF message" />
-
-        <Button
-            android:id="@+id/btnWriteCiphertext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:text="write ciphertext NDEF messages" />
-
-        <Button
-            android:id="@+id/btnNfcaLowLevelReading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:text="NFCA low level reading" />
-
-
     </LinearLayout>
 </ScrollView>

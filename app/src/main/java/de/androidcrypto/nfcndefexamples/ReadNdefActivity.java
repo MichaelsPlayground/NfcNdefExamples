@@ -1,28 +1,19 @@
 package de.androidcrypto.nfcndefexamples;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
-import android.nfc.tech.NfcA;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.ReaderCallback {
 

@@ -5,6 +5,7 @@ This app is reading and writing NDEF formatted NFC tags.
 
 
 
+For parsing: https://github.com/skjolber/ndef-tools-for-android
 
 
 
@@ -21,10 +22,16 @@ I/System.out:
 I/System.out: rec: 0 TNF: 1 (1 TNF_WELL_KNOWN)
 I/System.out: rec 0 inf: 1 type: 55 payload: 00676f6f676c652e737472656574766965773a63626c6c3d33342e3739323334352c2d3131312e373632353331 
 I/System.out: ��google.streetview:cbll=34.792345,-111.762531 
-
 ```
 
-
+Link:
+```plaintext
+I/System.out: nr of records: 1
+I/System.out: 
+I/System.out: rec: 0 TNF: 1 (1 TNF_WELL_KNOWN)
+I/System.out: rec 0 inf: 1 type: 55 payload: 046c696e6b736c6973742e6170702f3438356b4f774f 
+I/System.out: linkslist.app/485kOwO 
+```
 
 
 https://www.oreilly.com/library/view/beginning-nfc/9781449324094/apa.html
