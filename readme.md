@@ -2,7 +2,13 @@
 
 This app is reading and writing NDEF formatted NFC tags.
 
+These NDEF types are implemented:
+```plaintext
+01 well known type - text
+02 well known type - URI
+03 well known type - Google streetview
 
+```
 
 
 For parsing: https://github.com/skjolber/ndef-tools-for-android

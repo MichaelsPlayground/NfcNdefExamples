@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
 
     Button readNfc;
     com.google.android.material.textfield.TextInputLayout inputField1Decoration, inputField2Decoration;
-    com.google.android.material.textfield.TextInputEditText typeDescription, inputField1, inputfield2, resultNfcWriting;
+    com.google.android.material.textfield.TextInputEditText typeDescription, inputField1, inputField2, resultNfcWriting;
     SwitchMaterial addTimestampToData;
     AutoCompleteTextView autoCompleteTextView;
 
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
         typeDescription = findViewById(R.id.etMainTypeDescription);
         inputField1 = findViewById(R.id.etMainInputline1);
         inputField1Decoration = findViewById(R.id.etMainInputline1Decoration);
-        inputfield2 = findViewById(R.id.etMainInputline2);
+        inputField2 = findViewById(R.id.etMainInputline2);
         inputField2Decoration = findViewById(R.id.etMainInputline2Decoration);
         resultNfcWriting = findViewById(R.id.etMainResult);
         addTimestampToData = findViewById(R.id.swMainAddTimestampSwitch);
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
         });
 
         String[] type = new String[]{
-                "Text", "URL", "Dateilink", "Videolink", "Email address", "Telefone number", "Target address", "StreetView", "Emergency informations"};
+                "Text", "URI", "Email", "Dateilink", "Videolink", "Email address", "Telefone number", "Target address", "StreetView", "Emergency informations"};
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 this,
                 R.layout.drop_down_item,
@@ -89,12 +89,16 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                         inputSchemeText();
                         break;
                     }
-                    case "URL": {
-                        inputSchemeUrl();
+                    case "URI": {
+                        inputSchemeUri();
                         break;
                     }
-                    case "Streetview": {
-
+                    case "StreetView": {
+                        inputSchemeStreetview();
+                        break;
+                    }
+                    case "Email": {
+                        inputSchemeEmail();
                         break;
                     }
                     default: {
@@ -127,12 +131,39 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
         inputField1.setText("sample text");
     }
 
-    private void inputSchemeUrl() {
-        String description = "writes a NDEF record with an URL";
+    private void inputSchemeUri() {
+        String description = "writes a NDEF record with an URI";
         typeDescription.setText(description);
-        inputField1Decoration.setHint("Enter an URL including https...");
+        inputField1Decoration.setHint("Enter an URI including https://");
         inputField1Decoration.setVisibility(View.VISIBLE);
         inputField2Decoration.setVisibility(View.GONE);
+        addTimestampToData.setVisibility(View.GONE);
+        resultNfcWriting.setVisibility(View.VISIBLE);
+        inputField1.setText("https://");
+    }
+
+    private void inputSchemeEmail() {
+        String description = "writes a NDEF record with a complete Email";
+        typeDescription.setText(description);
+        inputField1Decoration.setHint("Enter an email address for the recipient");
+        inputField2Decoration.setHint("Enter the email subject");
+        inputField1Decoration.setVisibility(View.VISIBLE);
+        inputField2Decoration.setVisibility(View.VISIBLE);
+        addTimestampToData.setVisibility(View.VISIBLE);
+        resultNfcWriting.setVisibility(View.VISIBLE);
+        inputField1.setText("androidcrypto@gmx.de");
+        inputField2.setText("sample email subject");
+    }
+
+    private void inputSchemeStreetview() {
+        String description = "writes a NDEF record with a Google streetview link";
+        typeDescription.setText(description);
+        inputField1Decoration.setHint("Enter coordinates");
+        inputField1Decoration.setVisibility(View.VISIBLE);
+        inputField2Decoration.setVisibility(View.GONE);
+        addTimestampToData.setVisibility(View.GONE);
+        resultNfcWriting.setVisibility(View.VISIBLE);
+        inputField1.setText("34.792345,-111.762531");
     }
 
     @Override
@@ -191,6 +222,23 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                     ndefMessage = new NdefMessage(ndefRecord1);
                     break;
                 }
+                case "URI": {
+                    String data = inputData1;
+                    ndefRecord1 = NdefRecord.createUri(data);
+                    ndefMessage = new NdefMessage(ndefRecord1);
+                    break;
+                }
+                case "StreetView": {
+                    String data = inputData1;
+                    String completeData = "google.streetview:cbll=" + data;
+                    System.out.println("*** StreetView: " + completeData);
+                    ndefRecord1 = NdefRecord.createUri(completeData);
+                    System.out.println("ndefRecord1: " + ndefRecord1.getTnf() + " " + ndefRecord1.getType());
+                    ndefMessage = new NdefMessage(ndefRecord1);
+                    break;
+                }
+
+
 
                 default:
                     throw new IllegalStateException("Unexpected value: " + choiceString);

@@ -163,10 +163,11 @@ public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.Re
                         System.out.println(finalNdefContent);
                     });
 
+                    // Well known type - Text
                     if (ndefTnf == NdefRecord.TNF_WELL_KNOWN &&
                             Arrays.equals(ndefType, NdefRecord.RTD_TEXT)) {
                             //Arrays.equals(ndefType, "T".getBytes(StandardCharsets.US_ASCII))) {
-                        String ndefText = "XX payload\n" + new String(ndefPayload) + " \n";
+                        String ndefText = "Well known Text XX payload\n" + new String(ndefPayload) + " \n";
                         ndefText = ndefText + Utils.parseTextrecordPayload(ndefPayload);
                         String finalNdefText = ndefText;
                         runOnUiThread(() -> {
@@ -174,6 +175,19 @@ public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.Re
                             System.out.println(finalNdefText);
                         });
                     }
+                    // Well known type - Text
+                    if (ndefTnf == NdefRecord.TNF_WELL_KNOWN &&
+                            Arrays.equals(ndefType, NdefRecord.RTD_URI)) {
+                        //Arrays.equals(ndefType, "U".getBytes(StandardCharsets.US_ASCII))) {
+                        String ndefText = "Well known Uri XX payload\n" + new String(ndefPayload) + " \n";
+                        ndefText = ndefText + Utils.parseUrirecordPayload(ndefPayload);
+                        String finalNdefText = ndefText;
+                        runOnUiThread(() -> {
+                            nfcContentHex.setText(finalNdefText);
+                            System.out.println(finalNdefText);
+                        });
+                    }
+
 
                 }
             }
