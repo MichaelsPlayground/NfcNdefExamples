@@ -168,19 +168,6 @@ public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.Re
                             //Arrays.equals(ndefType, "T".getBytes(StandardCharsets.US_ASCII))) {
                         String ndefText = "XX payload\n" + new String(ndefPayload) + " \n";
                         ndefText = ndefText + Utils.parseTextrecordPayload(ndefPayload);
-                        /*
-                        // get length of language
-                        int languageCodeLength = Array.getByte(ndefPayload, 0);
-                        int ndefPayloadLength = ndefPayload.length;
-                        byte[] languageCode = new byte[languageCodeLength];
-                        System.arraycopy(ndefPayload, 1, languageCode, 0, languageCodeLength);
-                        byte[] message = new byte[ndefPayloadLength - 1 - languageCodeLength];
-                        System.arraycopy(ndefPayload, 1 + languageCodeLength, message, 0, ndefPayloadLength - 1 - languageCodeLength);
-                        ndefText = ndefText + "length: " + languageCodeLength +
-                        " langCode: " + new String(languageCode, StandardCharsets.US_ASCII) +
-                        " payload: " + new String(message, StandardCharsets.UTF_8);
-
-                         */
                         String finalNdefText = ndefText;
                         runOnUiThread(() -> {
                             nfcContentHex.setText(finalNdefText);
