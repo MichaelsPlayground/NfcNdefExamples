@@ -18,6 +18,11 @@ For parsing: https://github.com/skjolber/ndef-tools-for-android
 
 NDEFRecord: http://www.java2s.com/example/java-src/pkg/android/nfc/ndefrecord-c8783.html
 
+Masterarbeit: https://diglib.tugraz.at/download.php?id=576a788c1cf1a&location=browse
+
+```plaintext
+Entwurf und Implementierung einer NFC-Anwendung fu ̈r den Einsatz im eCommerce-Bereich
+```
 
 AndroidManifest.xml add permissions:
 ```plaintext
