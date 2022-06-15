@@ -30,6 +30,15 @@
             android:layout_marginEnd="8dp"
             android:text="read a NDEF message from a NFC tag" />
 
+        <Button
+        android:id="@+id/btnMainSsaurelReadNfcNdefTag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="parse a NDEF message from a NFC tag (Ssaurel)" />
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
             android:layout_width="match_parent"

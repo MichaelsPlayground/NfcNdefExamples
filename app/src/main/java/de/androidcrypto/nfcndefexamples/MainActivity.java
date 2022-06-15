@@ -1,11 +1,7 @@
 package de.androidcrypto.nfcndefexamples;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
@@ -25,15 +21,17 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
+
+import de.androidcrypto.nfcndefexamples.ssaurel.ReaderApp;
 
 public class MainActivity extends AppCompatActivity implements NfcAdapter.ReaderCallback {
 
-    Button readNfc;
+    Button readNfc, readNfcSsaurel;
     com.google.android.material.textfield.TextInputLayout inputField1Decoration, inputField2Decoration, inputField3Decoration;
     com.google.android.material.textfield.TextInputEditText typeDescription, inputField1, inputField2, inputField3, resultNfcWriting;
     SwitchMaterial addTimestampToData;
@@ -48,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
         setContentView(R.layout.activity_main);
 
         readNfc = findViewById(R.id.btnMainReadNfcNdefTag);
+        readNfcSsaurel = findViewById(R.id.btnMainSsaurelReadNfcNdefTag);
         readNfcIntent = new Intent(MainActivity.this, ReadNdefActivity.class);
 
         typeDescription = findViewById(R.id.etMainTypeDescription);
@@ -71,12 +70,17 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
             }
         });
 
+        readNfcSsaurel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ReaderApp.class);
+                startActivity(intent);
+            }
+        });
+
         String[] type = new String[]{
                 "Text", "URI", "Telefone number", "Coordinate", "Coordinate userinfo", "StreetView",
-                "Address", "Google navigation",
-                "Email", "Application",
-                "Dateilink",
-                "Videolink", "Email address", "Target address",  "Emergency informations"};
+                "Address", "Google navigation", "Email", "Application", "Target address"};
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 this,
                 R.layout.drop_down_item,
@@ -136,10 +140,8 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                         break;
                     }
                 }
-
             }
         });
-
     }
 
     private void hideAllInputFields() {
@@ -327,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
         // Check that it is an Ndef capable card
         if (mNdef != null) {
             NdefMessage ndefMessage;
-            NdefRecord ndefRecord1, ndefRecord2;
+            NdefRecord ndefRecord1;
             // nfc ndef writing depends on the type
             String choiceString = autoCompleteTextView.getText().toString();
             String inputData1 = inputField1.getText().toString();
@@ -361,7 +363,6 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                             Uri.encode(data2);
                     if (addTimestamp) completeData = completeData + Uri.encode(" " + Utils.getTimestamp());
                     completeData = completeData + "&body=" + Uri.encode(data3);
-                    System.out.println("*** Email: " + completeData);
                     ndefRecord1 = NdefRecord.createUri(completeData);
                     ndefMessage = new NdefMessage(ndefRecord1);
                     break;
@@ -408,7 +409,6 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                 }
                 case "Application": {
                     String data = inputData1;
-                    //ndefRecord1 = NdefRecord.createExternal(null, "android.com:pkg", data.getBytes(StandardCharsets.UTF_8) );
                     ndefRecord1 = NdefRecord.createApplicationRecord(data);
                     ndefMessage = new NdefMessage(ndefRecord1);
                     break;
@@ -477,9 +477,6 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                 Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 v.vibrate(200);
             }
-
-
-
         } else {
             runOnUiThread(() -> {
                 Toast.makeText(getApplicationContext(),
