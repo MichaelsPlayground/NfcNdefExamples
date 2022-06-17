@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,11 +28,9 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.io.IOException;
 
-import de.androidcrypto.nfcndefexamples.ssaurel.ReaderApp;
-
 public class MainActivity extends AppCompatActivity implements NfcAdapter.ReaderCallback {
 
-    Button readNfc, readNfcSsaurel;
+    Button readNfc;
     com.google.android.material.textfield.TextInputLayout inputField1Decoration, inputField2Decoration, inputField3Decoration;
     com.google.android.material.textfield.TextInputEditText typeDescription, inputField1, inputField2, inputField3, resultNfcWriting;
     SwitchMaterial addTimestampToData;
@@ -46,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
         setContentView(R.layout.activity_main);
 
         readNfc = findViewById(R.id.btnMainReadNfcNdefTag);
-        readNfcSsaurel = findViewById(R.id.btnMainSsaurelReadNfcNdefTag);
         readNfcIntent = new Intent(MainActivity.this, ReadNdefActivity.class);
 
         typeDescription = findViewById(R.id.etMainTypeDescription);
@@ -67,14 +65,6 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
             @Override
             public void onClick(View view) {
                 startActivity(readNfcIntent);
-            }
-        });
-
-        readNfcSsaurel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ReaderApp.class);
-                startActivity(intent);
             }
         });
 
@@ -286,10 +276,20 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
         inputField1.setText("com.inkwired.droidinfo");
     }
 
+    private void showWirelessSettings() {
+        Toast.makeText(this, "You need to enable NFC", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+        startActivity(intent);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         if (mNfcAdapter != null) {
+
+            if (!mNfcAdapter.isEnabled())
+                showWirelessSettings();
+
             Bundle options = new Bundle();
             // Work around for some broken Nfc firmware implementations that poll the card too fast
             options.putInt(NfcAdapter.EXTRA_READER_PRESENCE_CHECK_DELAY, 250);
