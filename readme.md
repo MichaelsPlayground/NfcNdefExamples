@@ -10,6 +10,11 @@ These NDEF types are implemented:
 04 well known type - Email (Uri)
 05 well known type - Coordinate (Uri)
 06 well known type - Coordinate with user info (Uri)
+07 well known type - Telefone number (Uri)
+08 well known type - Address (Uri)
+09 well known type - Google navigation (Uri)
+10 well known type - Application (Uri)
+11 well known type - Target address
 
 ```
 
@@ -68,6 +73,21 @@ I/System.out: rec: 0 TNF: 2 (2 TNF_MIME_MEDIA)
 I/System.out: rec 0 inf: 2 type: 6170706c69636174696f6e2f766e642e7766612e777363 payload: 100e00351026000101104500094b696464795f4e6574100300020020100f0002000c102700094c656f6e5f3230313810200006ffffffffffff 
 I/System.out: ��5&��E��	Kiddy_Net���� ����'��	Leon_2018 �������� 
 type: application/vnd.wfa.wsc
+```
+
+WLAN-Test
+```plaintext
+Schlüssel WPA2 Personal, AES/TKIP Verschlüsselung, SSID T_Wpa2_Aestkip, Passwort 12345678
+I/System.out: nr of records: 1
+I/System.out: 
+I/System.out: rec: 0 TNF: 2 (2 TNF_MIME_MEDIA)
+I/System.out: rec 0 inf: 2 type: 6170706c69636174696f6e2f766e642e7766612e777363 payload: 100e003910260001011045000e545f577061325f416573746b6970100300020020100f0002000c10270008313233343536373810200006ffffffffffff 
+I/System.out: ��9&��E��T_Wpa2_Aestkip���� ����'�12345678 �������� 
+I/System.out: TNF Mime Media XX payload
+I/System.out: ��9&��E��T_Wpa2_Aestkip���� ����'�12345678 �������� 
+I/System.out: TNF Mime Media XX type
+I/System.out: application/vnd.wfa.wsc 
+
 ```
 
 Ort:
