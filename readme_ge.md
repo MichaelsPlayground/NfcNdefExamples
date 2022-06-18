@@ -46,8 +46,10 @@ Das typische Tag Erkennungszeichen (z.B. ein Ton und/oder Vibration) wird system
 
 **C Reader mode**: Der **Reader modus** ist der optimale Modus wenn der Tag immer nur bei geöffneter App gelesen oder 
 geschrieben werden soll. Dieser Modus ist robuster als die beiden anderen Modi und Sie behalten die volle Kontrolle über 
-den Lese- oder Schreibvorgang. So kann das typische Tag Erkennungszeichen unterbunden werden und Sie können in beliebiges 
+den Lese- oder Schreibvorgang. So kann das typische Tag Erkennungszeichen unterbunden werden und Sie können ein beliebiges 
 Zeichen nutzen. In meinen Beispielen nutze ich den Vibrationseffekt.
+
+Diese App nutzt sowohl für den Lese- als auch den Schreibvorgang den Reader Modus.
 
 
 

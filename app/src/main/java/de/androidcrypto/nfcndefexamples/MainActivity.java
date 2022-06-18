@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -328,6 +329,7 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
 
         // Check that it is an Ndef capable card
         if (mNdef != null) {
+
             NdefMessage ndefMessage;
             NdefRecord ndefRecord1;
             // nfc ndef writing depends on the type
@@ -421,12 +423,37 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
             // the tag is written here
             try {
                 mNdef.connect();
+
+                // check that the tag is writable
+                if (!mNdef.isWritable()) {
+                    runOnUiThread(() -> {
+                        resultNfcWriting.setText("NFC tag is not writable");
+                        Toast.makeText(getApplicationContext(),
+                                "NFC tag is not writable",
+                                Toast.LENGTH_SHORT).show();
+                    });
+                    return;
+                }
+
+                // check that the tag has sufficiant memory to write the ndef message
+                int ndefMaxSize = mNdef.getMaxSize();
+                int messageSize = ndefMessage.toByteArray().length;
+                if (messageSize > ndefMaxSize) {
+                    runOnUiThread(() -> {
+                        resultNfcWriting.setText("Message is too large to write on NFC tag");
+                        Toast.makeText(getApplicationContext(),
+                                "Message is too large to write on NFC tag",
+                                Toast.LENGTH_SHORT).show();
+                    });
+                    return;
+                }
+
                 mNdef.writeNdefMessage(ndefMessage);
                 // Success if got to here
                 runOnUiThread(() -> {
-                    resultNfcWriting.setText("write to NFC success");
+                    resultNfcWriting.setText("write to NFC success, total message size is " + messageSize);
                     Toast.makeText(getApplicationContext(),
-                            "write to NFC success",
+                            "write to NFC success, total message size is " + messageSize,
                             Toast.LENGTH_SHORT).show();
                 });
             } catch (FormatException e) {
