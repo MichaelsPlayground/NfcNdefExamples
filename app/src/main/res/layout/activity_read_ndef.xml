@@ -33,23 +33,23 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tvReadNdefContentHex"
+            android:id="@+id/tvReadNdefContentParsed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:hint="the NDEF formatted record comes here"
+            android:hint="the NDEF formatted parsed record comes here"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/tvReadNdefContentString"
+            android:id="@+id/tvReadNdefContentRaw"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:hint="the NDEF formatted record comes here"
+            android:hint="the NDEF formatted raw record comes here"
             android:textSize="16sp" />
 
     </LinearLayout>

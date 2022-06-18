@@ -19,7 +19,7 @@ import java.util.Arrays;
 
 public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.ReaderCallback {
 
-    TextView nfcContentHex, nfcContentString;
+    TextView nfcContentParsed, nfcContentRaw;
 
     private NfcAdapter mNfcAdapter;
 
@@ -27,8 +27,8 @@ public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.Re
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read_ndef);
-        nfcContentHex = findViewById(R.id.tvReadNdefContentHex);
-        nfcContentString = findViewById(R.id.tvReadNdefContentString);
+        nfcContentParsed = findViewById(R.id.tvReadNdefContentParsed);
+        nfcContentRaw = findViewById(R.id.tvReadNdefContentRaw);
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
     }
 
@@ -128,10 +128,11 @@ public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.Re
                             " \n" + new String(ndefPayload) + " \n";
                     String finalNdefContent = ndefContent;
                     runOnUiThread(() -> {
-                        nfcContentString.setText(finalNdefContent);
+                        nfcContentRaw.setText(finalNdefContent);
                         System.out.println(finalNdefContent);
                     });
 
+                    // here we are trying to parse the content
                     // Well known type - Text
                     if (ndefTnf == NdefRecord.TNF_WELL_KNOWN &&
                             Arrays.equals(ndefType, NdefRecord.RTD_TEXT)) {
@@ -161,7 +162,7 @@ public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.Re
                     }
                     String finalNdefText = ndefText;
                     runOnUiThread(() -> {
-                        nfcContentHex.setText(finalNdefText);
+                        nfcContentParsed.setText(finalNdefText);
                         System.out.println(finalNdefText);
                     });
                 } // for
