@@ -72,6 +72,7 @@ public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.Re
             });
 
             if (ndefRecordsCount > 0) {
+                String ndefText = "";
                 for (int i = 0; i < ndefRecordsCount; i++) {
                     short ndefTnf = record[i].getTnf();
 
@@ -134,49 +135,36 @@ public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.Re
                     // Well known type - Text
                     if (ndefTnf == NdefRecord.TNF_WELL_KNOWN &&
                             Arrays.equals(ndefType, NdefRecord.RTD_TEXT)) {
-                        String ndefText = "Well known Text payload\n" + new String(ndefPayload) + " \n";
-                        ndefText = ndefText + Utils.parseTextrecordPayload(ndefPayload);
-                        String finalNdefText = ndefText;
-                        runOnUiThread(() -> {
-                            nfcContentHex.setText(finalNdefText);
-                            System.out.println(finalNdefText);
-                        });
+                        ndefText = ndefText + "\n" + "rec: " + i +
+                                " Well known Text payload\n" + new String(ndefPayload) + " \n";
+                        ndefText = ndefText + Utils.parseTextrecordPayload(ndefPayload) + " \n";
                     }
                     // Well known type - Uri
                     if (ndefTnf == NdefRecord.TNF_WELL_KNOWN &&
                             Arrays.equals(ndefType, NdefRecord.RTD_URI)) {
-                        String ndefText = "Well known Uri payload\n" + new String(ndefPayload) + " \n";
-                        ndefText = ndefText + Utils.parseUrirecordPayload(ndefPayload);
-                        String finalNdefText = ndefText;
-                        runOnUiThread(() -> {
-                            nfcContentHex.setText(finalNdefText);
-                            System.out.println(finalNdefText);
-                        });
+                        ndefText = ndefText + "\n" + "rec: " + i +
+                                " Well known Uri payload\n" + new String(ndefPayload) + " \n";
+                        ndefText = ndefText + Utils.parseUrirecordPayload(ndefPayload) + " \n";
                     }
 
                     // TNF 2 Mime Media
                     if (ndefTnf == NdefRecord.TNF_MIME_MEDIA) {
-                        String ndefText = "TNF Mime Media  payload\n" + new String(ndefPayload) + " \n";
+                        ndefText = ndefText + "\n" + "rec: " + i +
+                                " TNF Mime Media  payload\n" + new String(ndefPayload) + " \n";
                         ndefText = ndefText + "TNF Mime Media  type\n" + new String(ndefType) + " \n";
-                        //ndefText = ndefText + Utils.parseUrirecordPayload(ndefPayload);
-                        String finalNdefText = ndefText;
-                        runOnUiThread(() -> {
-                            nfcContentHex.setText(finalNdefText);
-                            System.out.println(finalNdefText);
-                        });
                     }
                     // TNF 4 External type
                     if (ndefTnf == NdefRecord.TNF_EXTERNAL_TYPE) {
-                        String ndefText = "TNF External type payload\n" + new String(ndefPayload) + " \n";
+                        ndefText = ndefText + "\n" + "rec: " + i +
+                                " TNF External type payload\n" + new String(ndefPayload) + " \n";
                         ndefText = ndefText + "TNF External type type\n" + new String(ndefType) + " \n";
-                        //ndefText = ndefText + Utils.parseUrirecordPayload(ndefPayload);
-                        String finalNdefText = ndefText;
-                        runOnUiThread(() -> {
-                            nfcContentHex.setText(finalNdefText);
-                            System.out.println(finalNdefText);
-                        });
                     }
-                }
+                    String finalNdefText = ndefText;
+                    runOnUiThread(() -> {
+                        nfcContentHex.setText(finalNdefText);
+                        System.out.println(finalNdefText);
+                    });
+                } // for
             }
         } else {
             runOnUiThread(() -> {
@@ -185,7 +173,6 @@ public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.Re
                         Toast.LENGTH_SHORT).show();
             });
         }
-
     }
 
     public static String bytesToHex(byte[] bytes) {
@@ -216,7 +203,6 @@ public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.Re
                             NfcAdapter.FLAG_READER_NO_PLATFORM_SOUNDS,
                     options);
         }
-
     }
 
     @Override
@@ -225,5 +211,4 @@ public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.Re
         if (mNfcAdapter != null)
             mNfcAdapter.disableReaderMode(this);
     }
-
 }
