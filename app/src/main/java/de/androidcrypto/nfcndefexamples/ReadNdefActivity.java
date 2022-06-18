@@ -15,11 +15,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.lang.reflect.Array;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-
-import de.androidcrypto.nfcndefexamples.ndef.wellknown.TextRecord;
 
 public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.ReaderCallback {
 
@@ -33,9 +29,7 @@ public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.Re
         setContentView(R.layout.activity_read_ndef);
         nfcContentHex = findViewById(R.id.tvReadNdefContentHex);
         nfcContentString = findViewById(R.id.tvReadNdefContentString);
-
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-
     }
 
     // This method is run in another thread when a card is discovered
@@ -45,9 +39,6 @@ public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.Re
     public void onTagDiscovered(Tag tag) {
         // Read and or write to Tag here to the appropriate Tag Technology type class
         // in this example the card should be an Ndef Technology Type
-
-        // clear the datafields
-        //clearEncryptionData();
 
         System.out.println("NFC tag discovered");
         Ndef mNdef = Ndef.get(tag);
@@ -70,9 +61,9 @@ public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.Re
             }
 
             NdefRecord[] record = mNdefMessage.getRecords();
-            String ndefContent = "";
+            String ndefContent = "raw data\n";
             int ndefRecordsCount = record.length;
-            ndefContent = "nr of records: " + ndefRecordsCount + "\n";
+            ndefContent = ndefContent + "nr of records: " + ndefRecordsCount + "\n";
             // Success if got to here
             runOnUiThread(() -> {
                 Toast.makeText(getApplicationContext(),
@@ -127,31 +118,8 @@ public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.Re
                         }
                     }
 
-
                     byte[] ndefType = record[i].getType();
                     byte[] ndefPayload = record[i].getPayload();
-                    // check for encrypted content in an External NDEF message
-                    short ndefTnf4 = (short) 4;
-                    if (Short.compare(ndefTnf, ndefTnf4) == 0) {
-                        // this is a record type 4
-                        /*
-                        byte[] saltDefinition = "de.androidcrypto.aes256gcmpbkdf2:salt".getBytes(StandardCharsets.UTF_8);
-                        byte[] nonceDefinition = "de.androidcrypto.aes256gcmpbkdf2:nonce".getBytes(StandardCharsets.UTF_8);
-                        byte[] ciphertextDefinition = "de.androidcrypto.aes256gcmpbkdf2:ciphertext".getBytes(StandardCharsets.UTF_8);
-                        // checking for salt
-                        if (Arrays.equals(ndefType, saltDefinition)) {
-                            // salt definition found
-                            saltBytes = Arrays.copyOf(ndefPayload, ndefPayload.length);
-                        }
-                        if (Arrays.equals(ndefType, nonceDefinition)) {
-                            // nonce definition found
-                            nonceBytes = Arrays.copyOf(ndefPayload, ndefPayload.length);
-                        }
-                        if (Arrays.equals(ndefType, ciphertextDefinition)) {
-                            // ciphertext definition found
-                            ciphertextBytes = Arrays.copyOf(ndefPayload, ndefPayload.length);
-                        }*/
-                    }
 
                     ndefContent = ndefContent + "\n" + "rec " + i + " inf: " + ndefTnf +
                             " type: " + bytesToHex(ndefType) +
@@ -166,8 +134,7 @@ public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.Re
                     // Well known type - Text
                     if (ndefTnf == NdefRecord.TNF_WELL_KNOWN &&
                             Arrays.equals(ndefType, NdefRecord.RTD_TEXT)) {
-                            //Arrays.equals(ndefType, "T".getBytes(StandardCharsets.US_ASCII))) {
-                        String ndefText = "Well known Text XX payload\n" + new String(ndefPayload) + " \n";
+                        String ndefText = "Well known Text payload\n" + new String(ndefPayload) + " \n";
                         ndefText = ndefText + Utils.parseTextrecordPayload(ndefPayload);
                         String finalNdefText = ndefText;
                         runOnUiThread(() -> {
@@ -178,8 +145,7 @@ public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.Re
                     // Well known type - Uri
                     if (ndefTnf == NdefRecord.TNF_WELL_KNOWN &&
                             Arrays.equals(ndefType, NdefRecord.RTD_URI)) {
-                        //Arrays.equals(ndefType, "U".getBytes(StandardCharsets.US_ASCII))) {
-                        String ndefText = "Well known Uri XX payload\n" + new String(ndefPayload) + " \n";
+                        String ndefText = "Well known Uri payload\n" + new String(ndefPayload) + " \n";
                         ndefText = ndefText + Utils.parseUrirecordPayload(ndefPayload);
                         String finalNdefText = ndefText;
                         runOnUiThread(() -> {
@@ -190,10 +156,8 @@ public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.Re
 
                     // TNF 2 Mime Media
                     if (ndefTnf == NdefRecord.TNF_MIME_MEDIA) {
-                        //Arrays.equals(ndefType, "U".getBytes(StandardCharsets.US_ASCII))) {
-
-                        String ndefText = "TNF Mime Media XX payload\n" + new String(ndefPayload) + " \n";
-                        ndefText = ndefText + "TNF Mime Media XX type\n" + new String(ndefType) + " \n";
+                        String ndefText = "TNF Mime Media  payload\n" + new String(ndefPayload) + " \n";
+                        ndefText = ndefText + "TNF Mime Media  type\n" + new String(ndefType) + " \n";
                         //ndefText = ndefText + Utils.parseUrirecordPayload(ndefPayload);
                         String finalNdefText = ndefText;
                         runOnUiThread(() -> {
@@ -203,10 +167,8 @@ public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.Re
                     }
                     // TNF 4 External type
                     if (ndefTnf == NdefRecord.TNF_EXTERNAL_TYPE) {
-                        //Arrays.equals(ndefType, "U".getBytes(StandardCharsets.US_ASCII))) {
-
-                        String ndefText = "TNF External type XX payload\n" + new String(ndefPayload) + " \n";
-                        ndefText = ndefText + "TNF External type XX type\n" + new String(ndefType) + " \n";
+                        String ndefText = "TNF External type payload\n" + new String(ndefPayload) + " \n";
+                        ndefText = ndefText + "TNF External type type\n" + new String(ndefType) + " \n";
                         //ndefText = ndefText + Utils.parseUrirecordPayload(ndefPayload);
                         String finalNdefText = ndefText;
                         runOnUiThread(() -> {

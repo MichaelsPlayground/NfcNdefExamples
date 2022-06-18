@@ -418,7 +418,6 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                     throw new IllegalStateException("Unexpected value: " + choiceString);
             }
 
-
             // the tag is written here
             try {
                 mNdef.connect();
@@ -485,5 +484,4 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
             });
         }
     }
-
 }
