@@ -23,7 +23,7 @@ Die MainActivity beinhaltet die Schreibfunktionen auf einen Tag, die ReadNdefAct
 
 **Grundlegende Informationen zum genutzten NFC Tag**: NFC-Tag werden in 4 Klassen angeboten, für unsere Beispiele 
 verwenden wir Tags der **Klasse 2**. Einer der meistverkauften Tags ist der Tag NFC **NTAG216**, welcher eine 
-Brutto Speicherkapazität von 888 Bytes besitzt. Die Netto Speicherkapazität beträgt 860 Bytes - die Differenz 
+Brutto Speicherkapazität von 924 Bytes besitzt. Die Netto Speicherkapazität beträgt 868 Bytes - die Differenz 
 entsteht durch den Header bei der Nutzung von NDEF Messages. Der Tag wird auch in zwei kleineren Ausführungen 
 angeboten, aber aufgrund des niedrigeren Preises von rund 1 Euro pro NFC Tag nutze ich nicht die kleineren Tags.
 
