@@ -5,25 +5,27 @@ gespeichert sind. Die Datensätze werden in **NDEF Records** geschrieben und all
 Records werden in einer **NDEF Message** zusammengefasst.
 
 Der große Vorteil der Speicherung der Daten in strukturierter Form (NDEF) liegt darin, das sowohl 
-Android- als auch iOS-Smartphones diese Datensätze direkt einlesen und verarbeiten können.
+Android- als auch iOS-Smartphones diese Datensätze direkt einlesen und verarbeiten können. Alternativ können  
+Daten auch direkt auf den NFC Tag geschrieben werden, dann benötigt Ihr aber auch ein Lese-Protokoll, um  
+die Daten(-sätze) auch wieder strukturiert auslesen zu können. 
 
-Je nach gewähltem Typ können die Daten direkt verarbeitet werden oder es wird diejenige App 
+Je nach gewähltem NDEF-Typ können die Daten direkt verarbeitet werden oder es wird diejenige App 
 gestartet, welche die Daten verarbeitet.
 
-Die insgesamt 8 Typen wurden vom NFC Forum standartisiert: Empty, Well-Known type [NFC RTD], 
+Die insgesamt 8 Typen wurden vom NFC Forum standardisiert: Empty, Well-Known type [NFC RTD], 
 MIME media-type [RFC 2046], Absolute URI [RFC 3986], External type [NFC RTD], Unknown, Unchanged 
 und Reserved.
 
-Die hier vorgestellten Beispiele zeigen überwiegend die Nutzung mit dem Typ **Well-known Type**, 
-was übersetzt "gut bekannter Typ" bedeutet.
+Die hier vorgestellten Beispiele zeigen überwiegend die Nutzung mit dem Typ **Well-known Type**
+(was übersetzt "gut bekannter Typ" bedeutet) und **External Type**.
 
 Die MainActivity beinhaltet die Schreibfunktionen auf einen Tag, die ReadNdefActivity liest einen Tag ein.
 
-**Grundlegende Informationen zum NFC Tag**: NFC-Tag werden in 4 Klassen angeboten, für unsere Beispiele verwenden wir Tags 
-der **Klasse 2**. Einer der meistverkauften Tags ist der Tag NFC **Tag216**, welcher eine Brutto Speicherkapazität von 
-888 Bytes besitzt. Die Netto Speicherkapazität beträgt 860 Bytes - die Differenz entsteht durch den Header bei der 
-Nutzung von NDEF Messages. Der Tag wird auch in zwei kleineren Ausführungen angeboten, aber aufgrund des niederigen 
-Preises von rund 1 Euro pro Tag nutze ich nicht die kleineren Tags.
+**Grundlegende Informationen zum genutzten NFC Tag**: NFC-Tag werden in 4 Klassen angeboten, für unsere Beispiele 
+verwenden wir Tags der **Klasse 2**. Einer der meistverkauften Tags ist der Tag NFC **NTAG216**, welcher eine 
+Brutto Speicherkapazität von 888 Bytes besitzt. Die Netto Speicherkapazität beträgt 860 Bytes - die Differenz 
+entsteht durch den Header bei der Nutzung von NDEF Messages. Der Tag wird auch in zwei kleineren Ausführungen 
+angeboten, aber aufgrund des niedrigeren Preises von rund 1 Euro pro NFC Tag nutze ich nicht die kleineren Tags.
 
 **Modus zum Lesen und Schreiben der Tags**: Ein NFC Tag kann in einem Android Smartphone über drei verschiedene Modi 
 gelesen und beschrieben werden:
@@ -68,3 +70,5 @@ These NDEF types are implemented:
 11 well known type - Target address
 
 ```
+
+
