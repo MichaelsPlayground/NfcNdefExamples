@@ -71,6 +71,11 @@ public class ReadNdefActivity extends AppCompatActivity implements NfcAdapter.Re
                         Toast.LENGTH_SHORT).show();
             });
 
+            // get uid of the tag
+            ndefContent = ndefContent + "UID: " + bytesToHex(mNdef.getTag().getId()) + "\n";
+            // get the techlist = support technoligies of the tag, e.g. android.nfc.tech.Nfca
+            ndefContent = ndefContent + "TecList: " + Arrays.toString(mNdef.getTag().getTechList()) + "\n";
+
             if (ndefRecordsCount > 0) {
                 String ndefText = "";
                 for (int i = 0; i < ndefRecordsCount; i++) {
